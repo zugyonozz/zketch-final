@@ -230,7 +230,7 @@ template <typename T, typename U> struct op_unit_wrapper {
  * @param op 
  * @return auto 
  */
-	template <typename Op> constexpr auto operator()(const T& a, const U& b, Op op) {
+	template <typename Op> constexpr auto operator()(const T& a, const U& b, Op op) noexcept {
 		using FieldType = decltype(op(a.x, b.x)) ;
 		if constexpr (is_vec_variant_v<T> && is_vec_variant_v<U>) {
 			using RetType = optional_unit_type_t<is_floating_variant_v<T> || is_floating_variant_v<U>, Vecf, Vec> ;
@@ -254,7 +254,7 @@ template <typename T, typename U> struct op_unit_wrapper {
  * @param b 
  * @return auto 
  */
-template <typename T, typename U> auto operator+(const T& a, const U& b) {
+template <typename T, typename U> auto operator+(const T& a, const U& b) noexcept {
 	return op_unit_wrapper<T, U>{}(a, b, [](auto a, auto b){ return a + b ; }) ;
 }
 
@@ -267,7 +267,7 @@ template <typename T, typename U> auto operator+(const T& a, const U& b) {
  * @param b 
  * @return auto 
  */
-template <typename T, typename U> auto operator-(const T& a, const U& b) {
+template <typename T, typename U> auto operator-(const T& a, const U& b) noexcept {
 	return op_unit_wrapper<T, U>{}(a, b, [](auto a, auto b){ return a - b ; }) ;
 }
 
@@ -280,7 +280,7 @@ template <typename T, typename U> auto operator-(const T& a, const U& b) {
  * @param b 
  * @return auto 
  */
-template <typename T, typename U> auto operator*(const T& a, const U& b) {
+template <typename T, typename U> auto operator*(const T& a, const U& b) noexcept {
 	return op_unit_wrapper<T, U>{}(a, b, [](auto a, auto b){ return a * b ; }) ;
 }
 
@@ -307,7 +307,7 @@ template <typename T, typename U> auto operator/(const T& a, const U& b) {
  * @param b 
  * @return bool 
  */
-template <typename T, typename U> bool operator==(const T& a, const U& b) {
+template <typename T, typename U> bool operator==(const T& a, const U& b) noexcept {
 	return op_unit_wrapper<T, U>{}(a, b, [](auto a, auto b){ return a == b ; }) ;
 }
 
@@ -320,7 +320,7 @@ template <typename T, typename U> bool operator==(const T& a, const U& b) {
  * @param b 
  * @return bool 
  */
-template <typename T, typename U> bool operator!=(const T& a, const U& b) {
+template <typename T, typename U> bool operator!=(const T& a, const U& b) noexcept {
 	return !(a == b) ;
 }
 
